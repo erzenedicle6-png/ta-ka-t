@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Taş Kağıt Makas</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background-color: #333; color: white; margin-top: 50px; }
+        button { padding: 15px 30px; font-size: 20px; margin: 10px; cursor: pointer; border-radius: 10px; border: none; }
+        button:hover { background-color: #ddd; }
+        #sonucAlani { margin-top: 30px; font-size: 24px; font-weight: bold; color: #ffeb3b; }
+        #skorAlani { margin-top: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <h1>Taş Kağıt Makas</h1>
+    
+    <div id="skorAlani">
+        Oyuncu Puanı: <span id="oyuncuPuan">0</span> | Bilgisayar Puanı: <span id="bilgisayarPuan">0</span>
+    </div>
+    
+    <p>Seçimini Yap:</p>
+    
+    <button onclick="oyna('taş')">🪨 Taş</button>
+    <button onclick="oyna('kağıt')">📄 Kağıt</button>
+    <button onclick="oyna('makas')">✂️ Makas</button>
+
+    <div id="sonucAlani">Sonuç bekleniyor...</div>
+
+    <script>
+        // Puanları global değişkenler olarak tanımlıyoruz
+        let oyuncuPuan = 0;
+        let bilgisayarPuan = 0;
+
+        function oyna(kullaniciSecimi) {
+            const secenekler = ['taş', 'kağıt', 'makas'];
+            const rastgeleSayi = Math.floor(Math.random() * 3);
+            const bilgisayarSecimi = secenekler[rastgeleSayi];
+            let sonucMesaji = "";
+            let kazanan = ""; // 'oyuncu', 'bilgisayar' veya 'berabere'
+
+            if (kullaniciSecimi === bilgisayarSecimi) {
+                sonucMesaji = "Berabere! İkiniz de " + bilgisayarSecimi + " yaptınız.";
+                kazanan = 'berabere';
+            } 
+            else if (
+                (kullaniciSecimi === 'taş' && bilgisayarSecimi === 'makas') ||
+                (kullaniciSecimi === 'kağıt' && bilgisayarSecimi === 'taş') ||
+                (kullaniciSecimi === 'makas' && bilgisayarSecimi === 'kağıt')
+            ) {
+                sonucMesaji = "Kazandın! Bilgisayar " + bilgisayarSecimi + " yapmıştı.";
+                kazanan = 'oyuncu';
+            } 
+            else {
+                sonucMesaji = "Kaybettin... Bilgisayar " + bilgisayarSecimi + " yaptı.";
+                kazanan = 'bilgisayar';
+            }
+
+            // Puanları Güncelle
+            if (kazanan === 'oyuncu') {
+                oyuncuPuan++;
+            } else if (kazanan === 'bilgisayar') {
+                bilgisayarPuan++;
+            }
+            
+            // Sonuç ve Puanları Ekranda Göster
+            document.getElementById('sonucAlani').innerText = sonucMesaji;
+            document.getElementById('oyuncuPuan').innerText = oyuncuPuan;
+            document.getElementById('bilgisayarPuan').innerText = bilgisayarPuan;
+        }
+    </script>
+
+</body>
+</html>
